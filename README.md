@@ -68,42 +68,42 @@
     - May lose some semantic meaning of "open"/"close".
     - Cannot recover from totally missing time
     
-  - **B.** Fallback to Restaurant Hours when Deal Time is Missing
-    - ✅ **Pros**:
-      - Provides a default time range for deals without explicit times.
-      - Ensures all deals have a valid time range.
-    - ❌ **Cons**:
-      - Assumes restaurant hours represent deal times
-      - May mislead users about actual deal times
-      - Data quality risk if restaurant times are wrong
+- **B.** Fallback to Restaurant Hours when Deal Time is Missing
+  - ✅ **Pros**:
+    - Provides a default time range for deals without explicit times.
+    - Ensures all deals have a valid time range.
+  - ❌ **Cons**:
+    - Assumes restaurant hours represent deal times
+    - May mislead users about actual deal times
+    - Data quality risk if restaurant times are wrong
       
-  - **C**: Ignore Deals with Missing Temporal Data
-    - ✅ **Pros**:
-      - Prevents invalid or confusing deals
-      - Avoids making assumptions
-      - Easy to implement
-    - ❌ **Cons**:
-      - May hide valid deals that simply lack data
-      - Data coverage drops
-      - Risk of silently discarding real offers
+- **C**: Ignore Deals with Missing Temporal Data
+  - ✅ **Pros**:
+    - Prevents invalid or confusing deals
+    - Avoids making assumptions
+    - Easy to implement
+  - ❌ **Cons**:
+    - May hide valid deals that simply lack data
+    - Data coverage drops
+    - Risk of silently discarding real offers
       
-  - **D:** Log or Flag Invalid Deals for Cleanup
-      - ✅ **Pros**:
-        - Supports long-term data cleanup
-        - Transparency for debugging
-        - Complements other solutions
-      - ❌ **Cons**:
-        - Doesn’t fix the issue immediately
-        - Needs log monitoring or moderation tools
-        - Adds system complexity
+- **D:** Log or Flag Invalid Deals for Cleanup
+    - ✅ **Pros**:
+      - Supports long-term data cleanup
+      - Transparency for debugging
+      - Complements other solutions
+    - ❌ **Cons**:
+      - Doesn’t fix the issue immediately
+      - Needs log monitoring or moderation tools
+      - Adds system complexity
         
-  - **E.** Trust Deal Time Over Restaurant Time
-      - ✅ **Pros**:
-          - Preserves all deal data
-          - Useful when restaurant hours are unreliable
-      - ❌ **Cons**:
-          - Risks showing deals when restaurants are closed
-          - Bad user experience, potential business complaints
+- **E.** Trust Deal Time Over Restaurant Time
+    - ✅ **Pros**:
+        - Preserves all deal data
+        - Useful when restaurant hours are unreliable
+    - ❌ **Cons**:
+        - Risks showing deals when restaurants are closed
+        - Bad user experience, potential business complaints
 
 **Decision**
 
