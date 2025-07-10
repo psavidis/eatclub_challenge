@@ -7,12 +7,12 @@
 
 ## Problem 1
 
-Description: A Deal references a duration of time which falls outside the working hours of the restaurant.
-Example:
+**Description**: A Deal references a duration of time which falls outside the working hours of the restaurant.
+**Example**:
 - Restaurant (6pm-9pm)
 - Deal (3pm-9pm)
 
-Solutions:
+**Solutions**:
     
 **A.** Constrain deal validity within restaurant operating hours.
 - In that case above deal would be valid between 6pm and 9pm
