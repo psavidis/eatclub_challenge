@@ -4,7 +4,9 @@ import org.assertj.core.api.Assertions;
 import org.eatclub.challenge.ActiveDealsResponseDTO;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalTime;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.fail;
 
@@ -46,4 +48,41 @@ public class DealAssertions {
         return this;
     }
 
+    public DealAssertions containsDealIds(String... expectedDealObjectIds) {
+        var body = response.getBody();
+        var deals = body.deals();
+
+        Set<String> dealObjectIds = deals.stream()
+                .map(ActiveDealsResponseDTO.DealDto::dealObjectId)
+                .collect(Collectors.toSet());
+
+        Assertions.assertThat(dealObjectIds)
+                .containsAll(List.of(expectedDealObjectIds));
+
+        return this;
+    }
+
+    public DealAssertions doesNotContainDealIds(String... unexpectedDealObjectIds) {
+        var body = response.getBody();
+        var deals = body.deals();
+
+        Set<String> dealObjectIds = deals.stream()
+                .map(ActiveDealsResponseDTO.DealDto::dealObjectId)
+                .collect(Collectors.toSet());
+
+        Assertions.assertThat(dealObjectIds)
+                .doesNotContainAnyElementsOf(List.of(unexpectedDealObjectIds));
+
+        return this;
+    }
+
+    public DealAssertions hasSize(int expectedSize) {
+        var body = response.getBody();
+        var deals = body.deals();
+
+        Assertions.assertThat(deals)
+                .hasSize(expectedSize);
+
+        return this;
+    }
 }
