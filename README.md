@@ -25,12 +25,6 @@ Solutions:
   - May lead to partial deals being shown (e.g., "3–9pm deal" shown as "6–9pm"), which could confuse users if not explained.
   - If the restaurant hours are wrong or outdated, it might hide valid early deals.
 
-Balances flexibility and safety: preserves deals without exposing times when the restaurant is likely closed.
-
-Good user experience: prevents surfacing unusable deals.
-
-Easy to implement: a few LocalTime comparisons.
-
 **B.** Trust the deal hours over the restaurant hours
 - Implies the restaurant might be open earlier than listed — risky.
 - Could result in surfacing deals when the restaurant is actually closed.
@@ -39,8 +33,6 @@ Easy to implement: a few LocalTime comparisons.
     - Useful if restaurant hours are often wrong or incomplete in the data.
   - ❌ Cons:
     - False positives
-
-Useful if restaurant hours are often wrong or incomplete in the data.
 
 **C.** Ignore the deals that start before the restaurant opens
 - In that case above deal would not be valid
@@ -55,10 +47,9 @@ Useful if restaurant hours are often wrong or incomplete in the data.
 
 **Decision**
 
-Assuming the restaurant hours are more reliable than the deal hours, 
-Solution A is chosen. 
+**Solution A** is chosen. 
 
-Why: Favoring
+**Why**: Favoring
 - Flexibility over Data Loss: Preserving deals is important, even if it means showing them during restaurant hours.
 - Validity of Restaurant Hours Over Deal Hours: Restaurant hours are more likely to be accurate, so we trust them more.
 
