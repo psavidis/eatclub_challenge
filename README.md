@@ -1,10 +1,5 @@
 # My Notes
 
-- The data of the API appear not normalized. The following cases have been found for Deal Temporal data:
-  - Deals that use "open" / "close" fields
-  - Deals that use "start" / "end" fields
-  - Deals with no temporal data at all
-
 ## Problem 1
 
 **Description**: A Deal references a duration of time which falls outside the working hours of the restaurant.
@@ -53,6 +48,71 @@
 **Why**: Favoring
 - Flexibility over Data Loss: Preserving deals is important, even if it means showing them during restaurant hours.
 - Validity of Restaurant Hours Over Deal Hours: Restaurant hours are more likely to be accurate, so we trust them more.
+
+## Problem 2
+
+**Description:** The data of the API appear not normalized. The following cases have been found for Deal Temporal data:
+
+- Deals that use "open" / "close" fields
+- Deals that use "start" / "end" fields
+- Deals with no temporal data at all
+
+**Solutions:**
+
+- **A.** Normalize all deals to use "start" / "end" fields
+  - ✅ **Pros**:
+    - Consistent format across all deals.
+    - Easier to query and manipulate.
+  - ❌ **Cons**:
+    - Requires transformation of existing data.
+    - May lose some semantic meaning of "open"/"close".
+    - Cannot recover from totally missing time
+    
+  - **B.** Fallback to Restaurant Hours when Deal Time is Missing
+    - ✅ **Pros**:
+      - Provides a default time range for deals without explicit times.
+      - Ensures all deals have a valid time range.
+    - ❌ **Cons**:
+      - Assumes restaurant hours represent deal times
+      - May mislead users about actual deal times
+      - Data quality risk if restaurant times are wrong
+      
+  - **C**: Ignore Deals with Missing Temporal Data
+    - ✅ **Pros**:
+      - Prevents invalid or confusing deals
+      - Avoids making assumptions
+      - Easy to implement
+    - ❌ **Cons**:
+      - May hide valid deals that simply lack data
+      - Data coverage drops
+      - Risk of silently discarding real offers
+      
+  - **D:** Log or Flag Invalid Deals for Cleanup
+      - ✅ **Pros**:
+        - Supports long-term data cleanup
+        - Transparency for debugging
+        - Complements other solutions
+      - ❌ **Cons**:
+        - Doesn’t fix the issue immediately
+        - Needs log monitoring or moderation tools
+        - Adds system complexity
+        
+  - **E.** Trust Deal Time Over Restaurant Time
+      - ✅ **Pros**:
+          - Preserves all deal data
+          - Useful when restaurant hours are unreliable
+      - ❌ **Cons**:
+          - Risks showing deals when restaurants are closed
+          - Bad user experience, potential business complaints
+
+**Decision**
+
+**A Combination of Solutions A + B + C** is chosen.
+
+**Why**: Favoring
+- Functional deals
+- Safe user experience
+- Long-term path to improve data
 
 # Task 1
 

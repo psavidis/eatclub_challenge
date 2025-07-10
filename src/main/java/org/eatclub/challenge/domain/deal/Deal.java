@@ -36,6 +36,8 @@ public class Deal {
 
     private static LocalTime getDealStart(DealDto dealDto, RestaurantDto restaurantDto) {
 
+        // Field Precedence: start > open > restaurant open
+
         if (dealDto.start() != null) {
             return dealDto.start();
         }

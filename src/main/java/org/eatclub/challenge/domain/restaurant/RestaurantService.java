@@ -36,6 +36,7 @@ public class RestaurantService {
     /**
      * Fetches the list of restaurants from the external API.
      * Caches the result for 5 minutes.
+     *
      * @return
      */
     @Cacheable("restaurants")
@@ -43,7 +44,7 @@ public class RestaurantService {
         LOG.debug("Fetching restaurants from external API at {}", LocalTime.now());
 
         ResponseEntity<RestaurantResponse> response = restTemplate.getForEntity(URL, RestaurantResponse.class);
-        Optional<RestaurantResponse> result  = Optional.ofNullable(response.getBody());
+        Optional<RestaurantResponse> result = Optional.ofNullable(response.getBody());
 
         return result.map(RestaurantResponse::restaurants)
                 .orElse(Collections.emptyList());

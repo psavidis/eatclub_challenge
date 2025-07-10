@@ -31,6 +31,7 @@ public class DealService {
 
     /**
      * Returns a list of active deals based on the provided time of day.
+     *
      * @param timeOfDayAsString the given time of day in HH:mm format
      * @return the response containing active deals
      */
