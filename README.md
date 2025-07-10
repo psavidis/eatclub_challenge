@@ -8,6 +8,7 @@
 ## Problem 1
 
 **Description**: A Deal references a duration of time which falls outside the working hours of the restaurant.
+
 **Example**:
 - Restaurant (6pm-9pm)
 - Deal (3pm-9pm)
@@ -16,12 +17,12 @@
     
 **A.** Constrain deal validity within restaurant operating hours.
 - In that case above deal would be valid between 6pm and 9pm
-- ✅ Pros:
+- ✅ **Pros**:
   - Respects both sources of truth: doesn't discard deals or blindly trust potentially wrong times.
   - Balances flexibility and safety: preserves deals without exposing times when the restaurant is likely closed.
   - Good user experience: prevents surfacing unusable deals
   - Easy to implement
-- ❌ Cons:
+- ❌ **Cons**:
   - May lead to partial deals being shown (e.g., "3–9pm deal" shown as "6–9pm"), which could confuse users if not explained.
   - If the restaurant hours are wrong or outdated, it might hide valid early deals.
 
@@ -31,7 +32,7 @@
   - ✅ **Pros**:
     - Preserves all deals in full.
     - Useful if restaurant hours are often wrong or incomplete in the data.
-  - ❌ Cons:
+  - ❌ **Cons**:
     - False positives
 
 **C.** Ignore the deals that start before the restaurant opens
