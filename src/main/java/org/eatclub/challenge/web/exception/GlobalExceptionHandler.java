@@ -18,6 +18,4 @@ public class GlobalExceptionHandler {
         problem.setType(URI.create("https://httpstatuses.com/400"));
         return problem;
     }
-
-    // You can add other handlers here (e.g., NullPointerException, etc.)
 }

@@ -9,6 +9,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
+/**
+ * Deserializer to handle case-insensitive parsing of LocalTime in the format "h:mma".
+ * Handles the deserialization of LocalTime values by Jackson when used from RestTemplate (expects "PM" instead of "pm"").
+ */
 public class CaseInsensitiveLocalTimeDeserializer extends JsonDeserializer<LocalTime> {
 
     private static final DateTimeFormatter FORMATTER = new DateTimeFormatterBuilder()

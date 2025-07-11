@@ -51,7 +51,7 @@
 
 ## Problem 2
 
-**Description:** The data of the API appear not normalized. The following cases have been found for Deal Temporal data:
+**Description:** The data of the API appears to be not normalized. The following cases have been found for Deal Temporal data:
 
 - Deals that use "open" / "close" fields
 - Deals that use "start" / "end" fields
