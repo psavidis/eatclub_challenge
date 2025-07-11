@@ -205,3 +205,23 @@ For information on the technical decisions made, refer to the **Technical Decisi
     - **Why**
         - API documentation
         - Ease of manual testing
+
+## Bonus
+
+Db Choice:
+
+**PostgresSQL** can be used to store the data from the API.
+
+**Why**:
+- The solution processes and normalizes the data from the API with the intent to fix them in the future progressively (e.g notify restaurant owners about their data, deals etc)
+- Postgres would work well for modelling correct relationships between entities
+- It can be used for queries by timeOfDay to fetch deals for a given time range
+- If in the future there is a need for data range queries, Postgres can handle them well with its time range support.
+
+Here is a draft simple diagram depicting the database schema and the relationships between the entities in the application.
+- Each entity that has an id to another table has a foreign key relationship to that table.
+  - **Why**: To ensure referential integrity
+  - To do the normalization only once and then store the data in integrity without having to do it every time.
+  - A NoSQL database would fit perfectly with the dynamic nature of data. However, it would allow missing fields etc which makes it a weaker candidate. 
+
+![db_schema.png](charts/db_schema.png)
