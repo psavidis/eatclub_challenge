@@ -109,6 +109,14 @@ public class Deal {
         return start == null || end == null;
     }
 
+    public LocalTime getStart() {
+        return start;
+    }
+
+    public LocalTime getEnd() {
+        return end;
+    }
+
     private static boolean timeFieldFallsWithinWindow(LocalTime time, LocalTime windowStart, LocalTime windowEnd) {
         return !time.isBefore(windowStart) && !time.isAfter(windowEnd);
     }
