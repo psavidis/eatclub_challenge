@@ -13,7 +13,7 @@ I've documented the problems encountered during the development of the technical
   - C. If deal hours are not available (both start, end), the application uses the restaurant hours as a fallback.
 
 
-Comments:
+**Comments**
 
 - Given more time, the problem analysis and decision making would have been better documented in Github Tickets.
 - The commit history does not follow any convention on the messages due to time constraints to make fast progress.
