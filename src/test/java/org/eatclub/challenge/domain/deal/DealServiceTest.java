@@ -16,7 +16,7 @@ class DealServiceTest {
     private final DealService dealService = new TestDealService();
 
     @Test
-    void shouldReturnNullPeakWindowOnEmptyDeals() {
+    void shouldReturn_NullPeakWindow_OnEmptyDeals() {
         // given a restaurant with no deals
         List<RestaurantDto> restaurants = List.of(restaurant("08:00", "22:00", Collections.emptyList()));
 
@@ -29,7 +29,7 @@ class DealServiceTest {
     }
 
     @Test
-    void shouldIgnoreDealsWithNullStartOrEnd() {
+    void shouldIgnore_DealsWithNullStartOrEnd() {
         List<RestaurantDto> restaurants = List.of(
                 restaurant("08:00", "22:00", List.of(
                         deal(null, "10:00"),
@@ -47,7 +47,7 @@ class DealServiceTest {
     }
 
     @Test
-    void shouldReturnCorrectPeakWindow() {
+    void shouldReturn_CorrectPeakWindow() {
         // given
         List<RestaurantDto> restaurants = List.of(
                 restaurant("08:00", "22:00", List.of(
@@ -69,7 +69,7 @@ class DealServiceTest {
     }
 
     @Test
-    void shouldPickFirstPeakOnTwoPeaksWithSameCount() {
+    void shouldPick_FirstPeak_OnTwoPeaksWithSameCount() {
         // given two peaks with the same count
         List<RestaurantDto> restaurants = List.of(
                 restaurant("08:00", "22:00", List.of(
