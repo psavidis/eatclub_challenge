@@ -1,6 +1,39 @@
+# How to run the Application
+
+The application can be run using:
+
+- **IntelliJ IDEA Runner**: Simply run the `main` method of `org.eatclub.challenge.Main` class.
+- **Maven Command Line**
+  - `Option1`
+    -  Run `mvn spring-boot:run` in the project root directory (`EatClub_Technical_Challenge`)
+  - `Option 2`
+    - Build the project using `mvn clean package -DskipTests` in the project root directory (`EatClub_Technical_Challenge`)
+    - Run `java -jar target/app.jar`
+
+Using Java `24` and maven `3.9.10`
+
+**Note:** It might be possible to run the project using earlier java versions, a speculation that has not been tested.
+
+# How to run the Tests
+
+- **Maven Command Line**
+  - Run `mvn clean install` in the project root directory (`EatClub_Technical_Challenge`)
+    - This will run both unit and integration tests.
+- **IntelliJ IDEA Runner**
+  - `mvn clean package -DskipTests` - Builds the `app.jar` into the `target` folder
+  - Run the tests using the `Run Tests` button in IntelliJ IDEA
+    - This will run both unit and integration tests.
+    - Integration tests will pickup the `app.jar` and build a docker image from it and continue their execution.
+
 # My Solution
 
-I've documented the problems encountered during the development of the technical challenge under the problems section below.
+The solution encountered several challenges with ambiguous requirements during the development of the challenge.
+To facilitate progress, a problem analysis was conducted to identify trade-offs and make decisions.
+The decisions made are documented under the **Problems** section.
+
+A summary of the business rules implemented in the solution is provided in the **Summary of Business Rules** section.
+
+For information on the technical decisions made, refer to the **Technical Decisions** section.
 
 ## Summary of Business Rules
 
@@ -14,43 +47,17 @@ I've documented the problems encountered during the development of the technical
   - **B.** Prefer restaurant open / close over deal open / close if the deal start is outside the restaurant hours.
   - **C.** If deal hours are not available (both start, end), the application uses the restaurant hours as a fallback.
 
+**Deal Logging**
+- **Invalid Deals**: The application logs invalid deals that lack temporal information under `logs/invalid-deals.log`.
+  - **Why**
+    - The logging acts as a PoC for demonstrating the necessity to log invalidate data for future handling
+    - In a more complex system, these entries could be dumped into other systems for further processing, such as a data warehouse or a monitoring system.
 
 **Comments**
 
 - Given more time, the problem analysis and decision making would have been better documented in Github Tickets.
 - The commit history does not follow any convention on the messages due to time constraints to make fast progress.
   - In a real project, a format that categorizes commits by type (e.g., `feat`, `fix`, `chore`) would have been used instead.
-
-## Technical Decisions
-
-**Build**
-
-- **Java Version**: `Java 24`
-- **Maven Version**: `3.9.10`
-
-**Application**
-
-- `Spring Boot` is used for the application
-    - **Why:**
-        - Fast development speed
-        - DI, Web and Rest Support
-
-**Testing**
-
-- `Docker` is used to package the application into a container and run Integration Tests against the API
-  - **Why**: To treat the application as a black box and ensure it works without knowing any details of the internal implementation.
-- `Test Containers` latest version is used to build a docker image dynamically from a Dockerfile and run the application in a container
-  - **Why**: To automate the process of running the tests as much as possible.
-  - The only prerequisite is a built spring boot application jar file in the target folder
-  - The docker image will be built by the tests on the fly upon test execution.
-- `LogCaptor` is used for testing the logging output of the application
-  - **Why**: The logging of invalid deals is an important business requirements for this solution which deserves its own testing.
-- `AssertJ` is used for fluent assertions in the tests
-  - **Why**: To make the tests more readable and maintainable.
-- `Swagger` is used to document the API
-  - **Why**
-    - API documentation
-    - Ease of manual testing
 
 # Problems
 
@@ -167,3 +174,34 @@ I've documented the problems encountered during the development of the technical
 - Functional deals
 - Safe user experience
 - Long-term path to improve data
+
+## Technical Decisions
+
+**Build**
+
+- **Java Version**: `Java 24`
+- **Maven Version**: `3.9.10`
+
+**Application**
+
+- `Spring Boot` is used for the application
+    - **Why:**
+        - Fast development speed
+        - DI, Web and Rest Support
+
+**Testing**
+
+- `Docker` is used to package the application into a container and run Integration Tests against the API
+    - **Why**: To treat the application as a black box and ensure it works without knowing any details of the internal implementation.
+- `Test Containers` latest version is used to build a docker image dynamically from a Dockerfile and run the application in a container
+    - **Why**: To automate the process of running the tests as much as possible.
+    - The only prerequisite is a built spring boot application jar file in the target folder
+    - The docker image will be built by the tests on the fly upon test execution.
+- `LogCaptor` is used for testing the logging output of the application
+    - **Why**: The logging of invalid deals is an important business requirements for this solution which deserves its own testing.
+- `AssertJ` is used for fluent assertions in the tests
+    - **Why**: To make the tests more readable and maintainable.
+- `Swagger` is used to document the REST API
+    - **Why**
+        - API documentation
+        - Ease of manual testing
