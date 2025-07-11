@@ -55,7 +55,7 @@ public class Deal {
 
         // Deal has open/close — but per policy, prefer restaurant open
         if (dealDto.open() != null) {
-            LOG.info("Deal {} defines open field but restaurant open {} is preferred as per policy",
+            LOG.debug("Deal {} defines open field but restaurant open {} is preferred as per policy",
                     dealDto.objectId(), restaurantOpen);
             return restaurantOpen;
         }
@@ -84,7 +84,7 @@ public class Deal {
 
         // Deal has close field — but per policy, prefer restaurant close
         if (dealDto.close() != null) {
-            LOG.info("Deal {} defines close field but restaurant close {} is preferred as per policy",
+            LOG.debug("Deal {} defines close field but restaurant close {} is preferred as per policy",
                     dealDto.objectId(), restaurantClose);
             return restaurantClose;
         }
