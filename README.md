@@ -2,15 +2,17 @@
 
 I've documented the problems encountered during the development of the technical challenge under the problems section below.
 
+## Summary of Business Rules
+
 **Restaurant Hours**
-- **Reliability**: In a nutshell, the application treats restaurant hours are more reliable than deal hours (source of truth).
+- **Reliability**: In a nutshell, the application treats restaurant hours as more reliable than deal hours (**source of truth**).
 - **No normalisation**: If a restaurant has invalid hours, the application does not apply normalisation to the restaurant hours (e.g assume the restaurant closes at 12:00am given an invalid end time)
 
 **Deal Hours**
 - **Flexibility**:
-  - A. The application favors deal start if its within the restaurant hours.
-  - B. Prefer restaurant open / close over deal open / close if the deal start is outside the restaurant hours.
-  - C. If deal hours are not available (both start, end), the application uses the restaurant hours as a fallback.
+  - **A.** The application favors deal start if its within the restaurant hours.
+  - **B.** Prefer restaurant open / close over deal open / close if the deal start is outside the restaurant hours.
+  - **C.** If deal hours are not available (both start, end), the application uses the restaurant hours as a fallback.
 
 
 **Comments**
@@ -18,7 +20,6 @@ I've documented the problems encountered during the development of the technical
 - Given more time, the problem analysis and decision making would have been better documented in Github Tickets.
 - The commit history does not follow any convention on the messages due to time constraints to make fast progress.
   - In a real project, a format that categorizes commits by type (e.g., `feat`, `fix`, `chore`) would have been used instead.
-
 
 # Problems
 
