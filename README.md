@@ -21,6 +21,36 @@ I've documented the problems encountered during the development of the technical
 - The commit history does not follow any convention on the messages due to time constraints to make fast progress.
   - In a real project, a format that categorizes commits by type (e.g., `feat`, `fix`, `chore`) would have been used instead.
 
+## Technical Decisions
+
+**Build**
+
+- **Java Version**: `Java 24`
+- **Maven Version**: `3.9.10`
+
+**Application**
+
+- `Spring Boot` is used for the application
+    - **Why:**
+        - Fast development speed
+        - DI, Web and Rest Support
+
+**Testing**
+- `Docker` is used to package the application into a container and run Integration Tests against the API
+  - **Why**: To treat the application as a black box and ensure it works without knowing any details of the internal implementation.
+  - `Test Containers` latest version is used to build a docker image dynamically from a Dockerfile and run the application in a container
+    - **Why**: To automate the process of running the tests as much as possible.
+    - The only prerequisite is a built spring boot application jar file in the target folder
+    - The docker image will be built by the tests on the fly upon test execution.
+  - `LogCaptor` is used for testing the logging output of the application
+    - **Why**: The logging of invalid deals is an important business requirements for this solution which deserves its own testing.
+  - `AssertJ` is used for fluent assertions in the tests
+    - **Why**: To make the tests more readable and maintainable.
+  - `Swagger` is used to document the API
+    - **Why**
+      - API documentation
+      - Ease of manual testing
+
 # Problems
 
 ## Problem 1
