@@ -1,5 +1,6 @@
 package org.eatclub.challenge.domain.deal;
 
+import org.eatclub.challenge.common.LocalTimeWindow;
 import org.eatclub.challenge.domain.restaurant.RestaurantService;
 import org.eatclub.challenge.domain.restaurant.dto.DealDto;
 import org.eatclub.challenge.domain.restaurant.dto.RestaurantDto;
@@ -75,8 +76,7 @@ public class DealService {
                 LocalTime start = deal.getStart();
                 LocalTime end = deal.getEnd();
 
-                if (start != null && end != null && !end.isBefore(start)) {
-
+                if (LocalTimeWindow.isValidWindow(start, end)) {
                     // Add all minutes between start and end to the timeline
                     populateMinutesForWindow(start, end, timeline);
                 }

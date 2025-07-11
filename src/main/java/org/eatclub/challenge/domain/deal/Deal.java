@@ -1,5 +1,6 @@
 package org.eatclub.challenge.domain.deal;
 
+import org.eatclub.challenge.common.LocalTimeWindow;
 import org.eatclub.challenge.domain.restaurant.dto.DealDto;
 import org.eatclub.challenge.domain.restaurant.dto.RestaurantDto;
 import org.slf4j.Logger;
@@ -15,14 +16,11 @@ public class Deal {
 
     private static final Logger LOG = LoggerFactory.getLogger(Deal.class);
 
-    private final LocalTime start;
-    private final LocalTime end;
-
+    private final LocalTimeWindow window;
     private final DealDetails details;
 
-    private Deal(LocalTime start, LocalTime end, DealDetails details) {
-        this.start = start;
-        this.end = end;
+    private Deal(LocalTimeWindow window, DealDetails details) {
+        this.window = window;
         this.details = details;
     }
 
@@ -34,8 +32,9 @@ public class Deal {
         LocalTime end = getDealEnd(dealDto, restaurantDto);
 
         DealDetails metadata = DealDetails.of(dealDto, restaurantDto);
+        var window = LocalTimeWindow.of(start, end);
 
-        return new Deal(start, end, metadata);
+        return new Deal(window, metadata);
     }
 
     private static LocalTime getDealStart(DealDto dealDto, RestaurantDto restaurantDto) {
@@ -44,9 +43,10 @@ public class Deal {
 
         // Prefer start if present and within restaurant hours
         if (dealDto.start() != null) {
-            LocalTime dealStart = dealDto.start();
+            var dealStart = dealDto.start();
+            var dealWindow = LocalTimeWindow.of(restaurantOpen, restaurantClose);
 
-            if (timeFieldFallsWithinWindow(dealStart, restaurantOpen, restaurantClose)) {
+            if (dealWindow.contains(dealStart)) {
                 return dealStart;
             }
 
@@ -72,9 +72,10 @@ public class Deal {
 
         // Prefer deal end if present and within restaurant hours
         if (dealDto.end() != null) {
-            LocalTime dealEnd = dealDto.end();
+            var dealEnd = dealDto.end();
+            var dealWindow = LocalTimeWindow.of(restaurantOpen, restaurantClose);
 
-            if (timeFieldFallsWithinWindow(dealEnd, restaurantOpen, restaurantClose)) {
+            if (dealWindow.contains(dealEnd)) {
                 return dealEnd;
             }
 
@@ -98,27 +99,19 @@ public class Deal {
      * Returns true if the deal is active at the given time.
      */
     public boolean isActive(LocalTime time) {
-        return !hasIncompleteTimes() && timeFieldFallsWithinWindow(time, start, end);
+        return window.contains(time);
     }
 
     public DealDetails getDetails() {
         return details;
     }
 
-    private boolean hasIncompleteTimes() {
-        return start == null || end == null;
-    }
-
     public LocalTime getStart() {
-        return start;
+        return window.getStart();
     }
 
     public LocalTime getEnd() {
-        return end;
-    }
-
-    private static boolean timeFieldFallsWithinWindow(LocalTime time, LocalTime windowStart, LocalTime windowEnd) {
-        return !time.isBefore(windowStart) && !time.isAfter(windowEnd);
+        return window.getEnd();
     }
 
 }
