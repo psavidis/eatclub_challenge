@@ -1,4 +1,4 @@
-# How to run the Application
+# How to Run the Application
 
 The application can be run using:
 
@@ -14,7 +14,7 @@ Using Java `24` and maven `3.9.10`
 
 **Note:** It might be possible to run the project using earlier java versions, a speculation that has not been tested.
 
-# How to run the Tests
+# How to Run the Tests
 
 - **Maven Command Line**
   - Run `mvn clean install` in the project root directory (`EatClub_Technical_Challenge`)
@@ -35,7 +35,7 @@ A summary of the business rules implemented in the solution is provided in the *
 
 For information on the technical decisions made, refer to the **Technical Decisions** section.
 
-## Summary of Business Rules
+## Business Rules Summary
 
 **Restaurant Hours**
 - **Reliability**: In a nutshell, the application treats restaurant hours as more reliable than deal hours (**source of truth**).
