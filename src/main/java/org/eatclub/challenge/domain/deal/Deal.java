@@ -16,6 +16,8 @@ public class Deal {
 
     private static final Logger LOG = LoggerFactory.getLogger(Deal.class);
 
+    private static final DealLogger DEAL_LOGGER = new DealLogger();
+
     private final LocalTimeWindow window;
     private final DealDetails details;
 
@@ -59,7 +61,7 @@ public class Deal {
         }
 
         // Fallback: no deal time info, use restaurant open
-        LOG.warn("Deal {} has no time info; falling back to restaurant open {}", dealDto.objectId(), restaurantOpen);
+        DEAL_LOGGER.logInvalidStartTime(dealDto.objectId(), restaurantOpen.toString());
         return restaurantOpen;
     }
 
@@ -88,7 +90,7 @@ public class Deal {
         }
 
         // Fallback: no deal end info, use restaurant close
-        LOG.warn("Deal {} has no end/close info; falling back to restaurant close {}", dealDto.objectId(), restaurantClose);
+        DEAL_LOGGER.logInvalidEndTime(dealDto.objectId(), restaurantClose.toString());
         return restaurantClose;
     }
 

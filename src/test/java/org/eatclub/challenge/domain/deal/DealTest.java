@@ -120,28 +120,29 @@ public class DealTest {
     }
 
     @Test
-    void shouldLogFallbackWarn_When_DealHasNoTimeInfo() {
+    void shouldLogFallbackWarn_When_DealHasNoStartTime() {
         // given: deal with no start/open/close times
         var restaurant = restaurant(
                 LocalTime.of(10, 0),
                 LocalTime.of(22, 0),
                 null,                 // deal open
                 null,                 // deal close
-                null,                 // deal start
-                null                  // deal end
+                null,                 // deal start (missing)
+                LocalTime.of(22, 0)   // deal end present (not null)
         );
 
         var deal = restaurant.deals().get(0);
 
-        LogCaptor logCaptor = LogCaptor.forClass(Deal.class);
+        var logCaptor = LogCaptor.forClass(DealLogger.class);
 
-        // when
         Deal.of(deal, restaurant);
 
-        // then
-        assertThat(logCaptor.getWarnLogs())
-                .anyMatch(log -> log.contains("has no time info; falling back to restaurant open")
-                        && log.contains(restaurant.open().toString()));
+        List<String> warnLogs = logCaptor.getWarnLogs();
+
+        String expectedStartLog = "{\"id\" : \"objectIdDeal1\", \"error\" : \"INVALID_START_TIME\", \"fallbackValue\" : \"10:00\" }";
+
+        assertThat(warnLogs)
+                .contains(expectedStartLog);
     }
 
     // deal end
@@ -251,28 +252,31 @@ public class DealTest {
     }
 
     @Test
-    void shouldLogFallbackWarn_When_DealHasNoEndOrCloseInfo() {
-        // given: deal with no end, close or start times
+    void shouldLogFallbackWarn_When_DealHasNoEndTime() {
+        // given: deal with no end, close or start times, but with start time present
         var restaurant = restaurant(
                 LocalTime.of(10, 0),
                 LocalTime.of(22, 0),
                 null,                 // deal open
                 null,                 // deal close
-                null,                 // deal start
-                null                  // deal end
+                LocalTime.of(10, 0),  // deal start present
+                null                  // deal end missing
         );
 
         var deal = restaurant.deals().get(0);
 
-        LogCaptor logCaptor = LogCaptor.forClass(Deal.class);
+        LogCaptor logCaptor = LogCaptor.forClass(DealLogger.class);
 
         // when
         Deal.of(deal, restaurant);
 
         // then
-        assertThat(logCaptor.getWarnLogs())
-                .anyMatch(log -> log.contains("has no end/close info; falling back to restaurant close")
-                        && log.contains(restaurant.close().toString()));
+        List<String> warnLogs = logCaptor.getWarnLogs();
+
+        String expectedEndLog = "{\"id\" : \"objectIdDeal1\", \"error\" : \"INVALID_END_TIME\", \"fallbackValue\" : \"22:00\" }";
+
+        assertThat(warnLogs)
+                .contains(expectedEndLog);
     }
 
     private RestaurantDto restaurant(LocalTime restaurantOpen, LocalTime restaurantClose,

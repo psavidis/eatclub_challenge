@@ -1,0 +1,26 @@
+<configuration>
+
+    <appender name="TEST_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="TEST_DEAL_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>target/test-deal-warnings.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.eatclub.challenge.domain.deal.DealLogger" level="WARN" additivity="false">
+        <appender-ref ref="TEST_DEAL_FILE" />
+        <appender-ref ref="TEST_CONSOLE" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="TEST_CONSOLE" />
+    </root>
+
+</configuration>
