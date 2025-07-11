@@ -1,5 +1,6 @@
 package org.eatclub.challenge.domain.deal;
 
+import nl.altindag.log.LogCaptor;
 import org.eatclub.challenge.domain.restaurant.dto.DealDto;
 import org.eatclub.challenge.domain.restaurant.dto.RestaurantDto;
 import org.junit.jupiter.api.Test;
@@ -118,6 +119,31 @@ public class DealTest {
                 .hasMessageContaining("Invalid time window");
     }
 
+    @Test
+    void shouldLogFallbackWarn_When_DealHasNoTimeInfo() {
+        // given: deal with no start/open/close times
+        var restaurant = restaurant(
+                LocalTime.of(10, 0),
+                LocalTime.of(22, 0),
+                null,                 // deal open
+                null,                 // deal close
+                null,                 // deal start
+                null                  // deal end
+        );
+
+        var deal = restaurant.deals().get(0);
+
+        LogCaptor logCaptor = LogCaptor.forClass(Deal.class);
+
+        // when
+        Deal.of(deal, restaurant);
+
+        // then
+        assertThat(logCaptor.getWarnLogs())
+                .anyMatch(log -> log.contains("has no time info; falling back to restaurant open")
+                        && log.contains(restaurant.open().toString()));
+    }
+
     // deal end
 
     @Test
@@ -222,6 +248,31 @@ public class DealTest {
         assertThatThrownBy(() -> Deal.of(deal, restaurant))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Invalid time window");
+    }
+
+    @Test
+    void shouldLogFallbackWarn_When_DealHasNoEndOrCloseInfo() {
+        // given: deal with no end, close or start times
+        var restaurant = restaurant(
+                LocalTime.of(10, 0),
+                LocalTime.of(22, 0),
+                null,                 // deal open
+                null,                 // deal close
+                null,                 // deal start
+                null                  // deal end
+        );
+
+        var deal = restaurant.deals().get(0);
+
+        LogCaptor logCaptor = LogCaptor.forClass(Deal.class);
+
+        // when
+        Deal.of(deal, restaurant);
+
+        // then
+        assertThat(logCaptor.getWarnLogs())
+                .anyMatch(log -> log.contains("has no end/close info; falling back to restaurant close")
+                        && log.contains(restaurant.close().toString()));
     }
 
     private RestaurantDto restaurant(LocalTime restaurantOpen, LocalTime restaurantClose,

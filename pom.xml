@@ -14,11 +14,15 @@
         <maven.compiler.target>24</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <!-- main -->
         <version.spring-boot-starter>3.5.3</version.spring-boot-starter>
         <version.springdoc-openapi-starter-webmvc-ui>2.8.9</version.springdoc-openapi-starter-webmvc-ui>
+
+        <!-- test -->
         <version.junit-jupiter>6.0.0-M1</version.junit-jupiter>
         <version.test-containers>1.21.3</version.test-containers>
         <version.assertj>4.0.0-M1</version.assertj>
+        <version.logcaptor>2.11.0</version.logcaptor>
 
     </properties>
 
@@ -75,6 +79,13 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.hakky54</groupId>
+            <artifactId>logcaptor</artifactId>
+            <version>${version.logcaptor}</version>
             <scope>test</scope>
         </dependency>
 

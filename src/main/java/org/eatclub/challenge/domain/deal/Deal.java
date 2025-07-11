@@ -49,9 +49,6 @@ public class Deal {
             if (dealWindow.contains(dealStart)) {
                 return dealStart;
             }
-
-            LOG.warn("Deal {} start time {} is outside restaurant hours {}–{}; using restaurant open",
-                    dealDto.objectId(), dealStart, restaurantOpen, restaurantClose);
         }
 
         // Deal has open/close — but per policy, prefer restaurant open
