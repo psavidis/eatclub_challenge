@@ -54,8 +54,8 @@ public class Deal {
         }
 
         // Deal has open/close — but per policy, prefer restaurant open
-        if (dealDto.open() != null || dealDto.close() != null) {
-            LOG.info("Deal {} defines open/close but restaurant open {} is preferred as per policy",
+        if (dealDto.open() != null) {
+            LOG.info("Deal {} defines open field but restaurant open {} is preferred as per policy",
                     dealDto.objectId(), restaurantOpen);
             return restaurantOpen;
         }
