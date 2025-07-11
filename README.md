@@ -225,3 +225,8 @@ Here is a draft simple diagram depicting the database schema and the relationshi
   - A NoSQL database would fit perfectly with the dynamic nature of data. However, it would allow missing fields etc which makes it a weaker candidate. 
 
 ![db_schema.png](charts/db_schema.png)
+
+# Exercise Metadata
+- **Total Time Invested**: ~ 15+ h
+- **Start Date**: 2024-07-10
+- **End Date**: 2024-07-11
